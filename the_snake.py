@@ -1,6 +1,8 @@
 from random import randint
 from typing import List, Optional, Tuple
+
 import pygame
+
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH: int = 640
