@@ -1,6 +1,5 @@
 from random import randint
 from typing import List, Optional, Tuple
-
 import pygame
 
 
@@ -199,4 +198,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-    
