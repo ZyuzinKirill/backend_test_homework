@@ -1,7 +1,8 @@
 from random import randint
-from typing import Tuple, List, Optional
+from typing import List, Optional, Tuple
 
 import pygame
+
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH: int = 640
@@ -27,7 +28,9 @@ TEXT_COLOR: Tuple[int, int, int] = (255, 255, 255)
 SPEED: int = 20
 
 # Настройка игрового окна:
-screen: pygame.Surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+screen: pygame.Surface = pygame.display.set_mode(
+    (SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32
+)
 pygame.display.set_caption('Змейка')
 clock: pygame.time.Clock = pygame.time.Clock()
 
@@ -37,10 +40,14 @@ class GameObject:
 
     def __init__(self) -> None:
         """Инициализирует игровой объект."""
-        self.position: Tuple[int, int] = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        self.position: Tuple[int, int] = (
+            SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
+        )
         self.body_color: Optional[Tuple[int, int, int]] = None
 
-    def draw_cell(self, position: Tuple[int, int], color: Tuple[int, int, int]) -> None:
+    def draw_cell(
+        self, position: Tuple[int, int], color: Tuple[int, int, int]
+    ) -> None:
         """Отрисовывает одну ячейку на экране."""
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, color, rect)
@@ -48,7 +55,9 @@ class GameObject:
 
     def draw(self) -> None:
         """Абстрактный метод для отрисовки объекта."""
-        raise NotImplementedError("Метод draw() должен быть переопределен в дочерних классах")
+        raise NotImplementedError(
+            'Метод draw() должен быть переопределен в дочерних классах'
+        )
 
 
 class Apple(GameObject):
@@ -60,17 +69,18 @@ class Apple(GameObject):
         self.body_color: Tuple[int, int, int] = APPLE_COLOR
         self.randomize_position()
 
-    def randomize_position(self, occupied_positions: List[Tuple[int, int]] = None) -> None:
-        """Устанавливает случайное положение яблока, избегая занятых позиций."""
+    def randomize_position(
+        self, occupied_positions: List[Tuple[int, int]] = None
+    ) -> None:
+        """Устанавливает случайное положение яблока."""
         if occupied_positions is None:
             occupied_positions = []
-        
+
         while True:
             new_position = (
                 randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 randint(0, GRID_HEIGHT - 1) * GRID_SIZE
             )
-            # Если позиция свободна - используем её
             if new_position not in occupied_positions:
                 self.position = new_position
                 break
@@ -115,15 +125,12 @@ class Snake(GameObject):
 
     def draw(self) -> None:
         """Отрисовывает змейку на экране."""
-        # Отрисовка тела змейки (кроме головы)
         for position in self.positions[:-1]:
             self.draw_cell(position, self.body_color)
 
-        # Отрисовка головы змейки
         head_position = self.get_head_position()
         self.draw_cell(head_position, self.body_color)
 
-        # Затирание последнего сегмента
         if self.last:
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
@@ -170,24 +177,20 @@ def main() -> None:
         snake.update_direction()
         snake.move()
 
-        # Проверка съедания яблока
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
             score += 1
 
-        # Проверка столкновения с собой
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             apple.randomize_position(snake.positions)
             score = 0
 
-        # Отрисовка
         screen.fill(BOARD_BACKGROUND_COLOR)
         apple.draw()
         snake.draw()
 
-        # Отображение счета
         score_text = font.render(f'Очки: {score}', True, TEXT_COLOR)
         screen.blit(score_text, (10, 10))
 
@@ -196,3 +199,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+    
