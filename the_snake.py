@@ -62,11 +62,13 @@ class GameObject:
 class Apple(GameObject):
     """Класс для яблока."""
 
-    def __init__(self) -> None:
+    def __init__(self, snake_positions: List[Tuple[int, int]] = None) -> None: 
         """Инициализирует яблоко."""
         super().__init__()
         self.body_color: Tuple[int, int, int] = APPLE_COLOR
-        self.randomize_position([])
+        if snake_positions is None:
+            snake_positions = []
+        self.randomize_position(snake_positions)
 
     def randomize_position(
         self, occupied_positions: List[Tuple[int, int]] = None
@@ -165,7 +167,7 @@ def main() -> None:
     pygame.init()
 
     snake: Snake = Snake()
-    apple: Apple = Apple()
+    apple: Apple = Apple(snake.positions)
     score: int = 0
     font: pygame.font.Font = pygame.font.Font(None, 36)
 
