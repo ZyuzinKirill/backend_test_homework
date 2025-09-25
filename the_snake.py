@@ -62,7 +62,7 @@ class GameObject:
 class Apple(GameObject):
     """Класс для яблока."""
 
-    def __init__(self, snake_positions: List[Tuple[int, int]] = None) -> None: 
+    def __init__(self, snake_positions: List[Tuple[int, int]] = None) -> None:
         """Инициализирует яблоко."""
         super().__init__()
         self.body_color: Tuple[int, int, int] = APPLE_COLOR
@@ -200,4 +200,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-   
+  
