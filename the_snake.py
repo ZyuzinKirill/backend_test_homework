@@ -66,7 +66,7 @@ class Apple(GameObject):
         """Инициализирует яблоко."""
         super().__init__()
         self.body_color: Tuple[int, int, int] = APPLE_COLOR
-        self.randomize_position()
+        self.randomize_position([])
 
     def randomize_position(
         self, occupied_positions: List[Tuple[int, int]] = None
